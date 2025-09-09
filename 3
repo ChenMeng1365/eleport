@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+#coding:utf-8
+all = []
+Dir["*.txt"].each do|path|
+	lines = File.read(path).split("\n")
+	content = []; start_flag = false; idx = 0
+	lines.each do|line|
+		break if line.include?('====') && line.include?('ed')
+		if start_flag
+			content << line
+			next
+		end
+		if line.include?('====') && line.include?('st')
+			start_flag = true
+			idx = line.split('====').last.split('st').first.to_i
+		end
+	end
+	p [path, idx, content.size, lines.size]
+	all[idx] = content.join().split("").each_slice(2).map{|pr|eval("0x#{pr.join}").chr}.join
+end
+File.open("all.tar.gz",'wb'){|f|f.write all.join}

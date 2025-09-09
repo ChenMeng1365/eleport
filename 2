@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+#coding:utf-8
+num = ARGV.first
+exit(114514) unless num
+text = File.read("#{num}.part")
+size, current, part = text.size, 0, 8192
+puts "==== #{num} st ===="
+while size > 0
+  puts text[current..(current+part-1)]
+  size -= part; current += part
+  sleep 1
+end
+puts "==== #{num} ed ===="

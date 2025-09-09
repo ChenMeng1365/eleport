@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+#coding:utf-8
+path, num = ARGV[0..1]
+exit(114514) unless path
+num = 1_000_000 unless num
+
+file = File.open(ARGV.first,'rb'){|f|f.read}
+
+start, finish, current, counter = 0, file.size, 0, 0
+while start <= [finish, num].max
+  current = current + num if current + num <= finish
+  current = finish        if current + num >  finish
+  content = file[start..current].split("").map{|c|"%02x"%c.ord}.join
+  File.open("#{counter}.part","w"){|f|f.write content}
+  start = current+1
+  counter += 1
+end
